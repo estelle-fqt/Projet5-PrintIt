@@ -1,4 +1,4 @@
-// Tableau d'obj chacun représente une img du slider et contient 2 propriétés : image (le chemin de l'img) et tagLine (texte afficher sous l'img)
+// Tableau d'obj où chacun représente une img du slider et contient 2 propriétés : image (le chemin de l'img) et tagLine (texte afficher sous l'img)
 // Struture toutes les données des slides au même endroit (gestion + facile)
 const slides = [
   {
@@ -24,68 +24,55 @@ const slides = [
 let arrowLeft = document.querySelector(".arrow_left");
 let arrowRight = document.querySelector(".arrow_right");
 
-let slideElements = document.querySelectorAll(".slide"); // Récupère ts les élements <li> ayant .slide contannt img et texte
+let slideElements = document.querySelectorAll(".slide"); // Récupère ts les élements <li> ayant .slide contenant img et texte
 let dots = document.querySelectorAll(".dot");
 
 // Variable garde la trace du slide actuellement affiché
-// Par défaut initialisée à 0 = 1er slide
-let currentIndex = 0;
+let currentIndex = 0; // Par défaut initialisée à 0 = 1er slide
 
-// Fonction actualise l'affichage du slider à chaque clic
-function updateSlider() {
-  // masque tous les slides et désélectione les points
-  slideElements.forEach((slide, index) => {
-    // forEach parcourt ts les slideElements et les dots
-    slide.classList.remove("active"); // remove supprime la classe active
-    dots[index].classList.remove("dot_selected"); // remove supprime la classe dot_selected
+arrowLeft.addEventListener("click", function () {
+  currentIndex--; // aller à l'img précedente (décrémente)
+
+  if (currentIndex < 0) {
+    // img -1 dans l'index
+    currentIndex = slides.length - 1; // reviens à la dernière img
+  }
+
+  // changer l'img
+  document.querySelector(".banner-img").src = slides[currentIndex].image;
+  // changer le texte
+  document.querySelector("#banner p").innerHTML = slides[currentIndex].tagLine;
+
+  // désactiver les bullets points
+  dots.forEach((dot) => {
+    dot.classList.remove("dot_selected");
   });
+  // activer le bullet point correspondant
+  dots[currentIndex].classList.add("dot_selected");
 
-  // affiche que le slide et dot correspondant à currentIndex
-  slideElements[currentIndex].classList.add("active"); // le slide à l'index currentIndex reçoit la class active
-  dots[currentIndex].classList.add("dot_selected"); // le point à l'index currentIndex reçoit la class dot_selected
-}
+  console.log("img précédente, index actuel :", currentIndex);
+});
 
-// Utilisation des conditions if else
-// Clic gauche
-arrowLeft.addEventListener("click", () => {
-  if (currentIndex === 0) {
-    // si on est au 1er slide, revenir au dernier slide
-    currentIndex = slideElements.length - 1;
-  } else {
-    // sinon, passe au slide précédent
-    currentIndex--;
+arrowRight.addEventListener("click", function () {
+  currentIndex++; // aller à l'img suivante (incrémente)
+
+  // vérifier si on dépasse le nbr d'img
+  if (currentIndex >= slides.length) {
+    // img 4 n'existe pas dans le tableau[0, 1, 2, 3]
+    currentIndex = 0; // reviens au début
   }
-  updateSlider();
-});
 
-// Clic droit
-arrowRight.addEventListener("click", () => {
-  if (currentIndex === slideElements.length - 1) {
-    // si on est au dernier slide, revenir au 1er slide
-    currentIndex = 0;
-  } else {
-    // sinon, passe au slide suivant
-    currentIndex++;
-  }
-  updateSlider();
-});
+  // changer l'img
+  document.querySelector(".banner-img").src = slides[currentIndex].image;
+  // changer le texte
+  document.querySelector("#banner p").innerHTML = slides[currentIndex].tagLine;
 
-// Initialisation du slider à l'affichage du site pour afficher la 1er img et le 1er point
-updateSlider();
+  // désactiver tous les bullet points
+  dots.forEach((dot) => {
+    dot.classList.remove("dot_selected");
+  });
+  // activer le bullet point correspondant
+  dots[currentIndex].classList.add("dot_selected");
 
-/*// Utilisation de calculs avec modulo %
-// Clic gauche
-// Diminue currentIndex de 1 pour passer au précédent, + slideElements.length = évite les indices négatifs, % slideElements.length = ramène l'index dans les limites du tableau
-arrowLeft.addEventListener("click", () => {
-  currentIndex =
-    (currentIndex - 1 + slideElements.length) % slideElements.length;
-  updateSlider();
+  console.log("img suivante, index actuel :", currentIndex);
 });
-
-// Clic droit
-// Augmente currentIndex de 1 pour passer au suivant, currentIndex + 1 = passer ua slide suivant , % slideElements.length = ramène l'index dans les limites du tableau
-arrowRight.addEventListener("click", () => {
-  currentIndex = (currentIndex + 1) % slideElements.length;
-  updateSlider();
-});
-*/
