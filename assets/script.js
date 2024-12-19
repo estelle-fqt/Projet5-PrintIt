@@ -38,17 +38,7 @@ arrowLeft.addEventListener("click", function () {
     currentIndex = slides.length - 1; // reviens à la dernière img
   }
 
-  // changer l'img
-  document.querySelector(".banner-img").src = slides[currentIndex].image;
-  // changer le texte
-  document.querySelector("#banner p").innerHTML = slides[currentIndex].tagLine;
-
-  // désactiver les bullets points
-  dots.forEach((dot) => {
-    dot.classList.remove("dot_selected");
-  });
-  // activer le bullet point correspondant
-  dots[currentIndex].classList.add("dot_selected");
+  updateCarrousel(currentIndex);
 
   console.log("img précédente, index actuel :", currentIndex);
 });
@@ -62,17 +52,20 @@ arrowRight.addEventListener("click", function () {
     currentIndex = 0; // reviens au début
   }
 
+  updateCarrousel(currentIndex);
+
+  console.log("img suivante, index actuel :", currentIndex);
+});
+
+// Mettre à jour le carrousel
+function updateCarrousel(currentIndex) {
   // changer l'img
   document.querySelector(".banner-img").src = slides[currentIndex].image;
   // changer le texte
   document.querySelector("#banner p").innerHTML = slides[currentIndex].tagLine;
 
-  // désactiver tous les bullet points
-  dots.forEach((dot) => {
-    dot.classList.remove("dot_selected");
-  });
-  // activer le bullet point correspondant
+  // changer le dot
+  const dot = document.querySelector(".dot_selected");
+  dot.classList.remove("dot_selected");
   dots[currentIndex].classList.add("dot_selected");
-
-  console.log("img suivante, index actuel :", currentIndex);
-});
+}
