@@ -39,8 +39,6 @@ arrowLeft.addEventListener("click", function () {
   }
 
   updateCarrousel(currentIndex);
-
-  console.log("img précédente, index actuel :", currentIndex);
 });
 
 arrowRight.addEventListener("click", function () {
@@ -53,8 +51,6 @@ arrowRight.addEventListener("click", function () {
   }
 
   updateCarrousel(currentIndex);
-
-  console.log("img suivante, index actuel :", currentIndex);
 });
 
 // Mettre à jour le carrousel
